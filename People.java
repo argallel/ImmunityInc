@@ -1,7 +1,7 @@
 /**
 * Program Name: People.java
-* Purpose: Put Something useful Here
-* Coder: You
+* Purpose: People class for the epidemic simulator
+* Coder: Katherine Argall, Roland Turner, and Scott Catton
 * Date: Jul. 29, 2021
 */
 

@@ -1,7 +1,7 @@
 /**
 * Program Name: HelperMethods.java
-* Purpose: Put Something useful Here
-* Coder: You
+* Purpose: Helper methods for the epidemic simulation program
+* Coder: Katherine Argall, Roland Turner, and Scott Catton
 * Date: Jul. 29, 2021
 */
 
