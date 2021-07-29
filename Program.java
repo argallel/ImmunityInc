@@ -1,3 +1,6 @@
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
 /**
 * Program Name: Program.java
 * Purpose: Running point of the epidemic simulator program
@@ -5,7 +8,11 @@
 * Date: Jul. 29, 2021
 */
 
-public class Program
+public class Program extends JPanel
 {
-
+	
+	public static void main(String[] args)
+  {
+		
+  }
 }
