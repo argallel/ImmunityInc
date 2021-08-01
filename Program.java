@@ -4,6 +4,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.Vector;
 import java.awt.*;
 
@@ -18,8 +19,8 @@ public class Program extends JFrame {
 	
 	private JButton startPanBtn, pausePanBtn;
 	private JLabel title, peopleLbl, unvaxLbl, unvaxMathLbl, oneShotLbl, fullLbl;
-	private JComboBox<Integer> peopleCB, unvaxRateCB, oneShotRateCB, fullRateCB;
-	private JSpinner peopleSpnr;
+	public static JComboBox<Integer> peopleCB, unvaxRateCB, oneShotRateCB, fullRateCB;
+	public static JSpinner peopleSpnr;
 	private JPanel blank;
 	
 	public Program() {
@@ -98,7 +99,13 @@ public class Program extends JFrame {
 				
 				if (oneShot + twoShot > 100) {
 					JFrame warning = new JFrame();
-					JOptionPane.showMessageDialog(warning, "total percentage of one shot and fully vaccinated must be less then or equal to 100");
+					JOptionPane.showMessageDialog(warning, "Total percentage of one shot and fully vaccinated must be less then or equal to 100");
+				}
+				else {
+					
+						BallProgram.main(null);
+					
+					
 				}
 			}
 			
@@ -109,6 +116,7 @@ public class Program extends JFrame {
 			if (totalPeople - (totalPeople * (oneShot + twoShot)/100) < 0) {
 				unvaxMathLbl.setText("Invalid percentages");
 			}
+			
 		}
 
 		@Override

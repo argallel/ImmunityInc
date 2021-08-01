@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
 * Program Name: People.java
@@ -24,17 +25,18 @@ public class People
 	boolean yFlag;
 	
 	public People() {
+		this.immunityStatus = 1;
 		this.isAlive = true;
 		this.isInfected = false;
 		this.colour = Color.blue;
-		this.xCoord = (int)Math.random();
-		this.yCoord = (int)Math.random();
+		this.xCoord = ThreadLocalRandom.current().nextInt(BallProgram.WIDTH);
+		this.yCoord = ThreadLocalRandom.current().nextInt(BallProgram.HEIGHT);
 		this.xIncrement = 5;
 		this.yIncrement = 5;
 		this.counter = 0;
-		this.diameter = 5;
-		this.xFlag = true;
-		this.yFlag = true;
+		this.diameter = 10;
+		this.xFlag = Math.random() < 0.5;
+		this.yFlag = Math.random() < 0.5;
 	}
 
 	/**
