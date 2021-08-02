@@ -18,9 +18,10 @@ public class BallProgram extends JPanel
 	
 	public final static int WIDTH = 700, HEIGHT = 500;
 	private final int LAG_TIME = 200; 
-	private Timer time;
+	private static Timer time;
 	private final int IMG_DIM = 8;
 	private Vector<People> peopleList;
+	private static int counter;
 	
 	
 
@@ -54,7 +55,7 @@ public class BallProgram extends JPanel
 		
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT) );
 		
-		this.time.start();	
+		this.time.start();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -71,17 +72,19 @@ public class BallProgram extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
+			counter++;
+			if(counter == 450) {
+				BallProgram.time.stop();
+			}
 			for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
 				calcPosition(peopleList.get(i));
 				for(int j = 0; j <= (Integer)Program.peopleSpnr.getValue(); j++) {
 					if(i != j) {
 						collisionDetection(peopleList.get(i), peopleList.get(j));
 					}
+				}
 			}
-			
 		}
-		
-	}
 	}
 	
 	public void collisionDetection(People p1, People p2) {
@@ -98,6 +101,7 @@ public class BallProgram extends JPanel
 				//No immunity
 				if(p1.getImmunityStatus() == 1) {
 					if(Math.random() <= 0.8) {
+						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
 					}
@@ -106,6 +110,7 @@ public class BallProgram extends JPanel
 				//One shot Immunity
 				else if(p1.getImmunityStatus() == 2) {
 					if(Math.random() <= 0.4) {
+						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
 					}
@@ -114,6 +119,7 @@ public class BallProgram extends JPanel
 				//Two shot immunity
 				else if(p1.getImmunityStatus() == 3) {
 					if(Math.random() <= 0.1) {
+						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
 					}
@@ -122,6 +128,7 @@ public class BallProgram extends JPanel
 				//Natural Immunity
 				else if(p1.getImmunityStatus() == 4) {
 					if(Math.random() <= 0.1) {
+						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
 					}
@@ -131,6 +138,7 @@ public class BallProgram extends JPanel
 			else if(p2.getColour() == Color.RED && p1.isAlive == true) {
 				if(p1.getImmunityStatus() == 1) {
 					if(Math.random() <= 0.8) {
+						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
 					}
@@ -139,6 +147,7 @@ public class BallProgram extends JPanel
 				//One shot Immunity
 				else if(p1.getImmunityStatus() == 2) {
 					if(Math.random() <= 0.4) {
+						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
 					}
@@ -147,6 +156,7 @@ public class BallProgram extends JPanel
 				//Two shot immunity
 				else if(p1.getImmunityStatus() == 3) {
 					if(Math.random() <= 0.1) {
+						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
 					}
@@ -155,6 +165,7 @@ public class BallProgram extends JPanel
 				//Natural Immunity
 				else if(p1.getImmunityStatus() == 4) {
 					if(Math.random() <= 0.1) {
+						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
 					}
@@ -261,6 +272,9 @@ public class BallProgram extends JPanel
 			frame.pack();//shrinks the JFrame to the smallest size possible to conserve
 			             //screen real estate. Comment it out to see its effect
 			frame.setVisible(true);	
+			
+			
+			
 
 	}
 
