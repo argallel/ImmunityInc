@@ -97,7 +97,7 @@ public class BallProgram extends JPanel
 			p2.setxFlag(!p2.xFlag);
 			p2.setyFlag(!p2.yFlag);
 			
-			if(p1.getColour() == Color.RED && p2.isAlive == true) {
+			if(p1.isInfected == true && p2.isAlive == true && p2.isInfected == false) {
 				//No immunity
 				if(p1.getImmunityStatus() == 1) {
 					if(Math.random() <= 0.8) {
