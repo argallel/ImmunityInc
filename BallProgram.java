@@ -34,6 +34,7 @@ public class BallProgram extends JPanel
 		//Deals with the percent of vaccinated and such
 		int numOneShot =  (int) Math.round(peopleList.size() * (double)((int)Program.oneShotRateCB.getSelectedItem()/100.00));
 		int numTwoShot =  (int) Math.round(peopleList.size() * (double)((int)Program.fullRateCB.getSelectedItem()/100.00));
+		//int natImmun =  (int) Math.round(peopleList.size() * (double)((int)Program.naturalImmunityCB.getSelectedItem()/100.00));
 		
 		//Immunity of 1 shot
 		for(int i = 0; i < numOneShot; i++) {
@@ -46,6 +47,13 @@ public class BallProgram extends JPanel
 			peopleList.get(i).setImmunityStatus(3);
 			peopleList.get(i).setColour(Color.YELLOW);
 		}
+		
+		//Immunity of Natural
+//		for(int i = numTwoShot; i < numTwoShot + numOneShot + natImmun; i++) {
+//			peopleList.get(i).setImmunityStatus(4);
+//			peopleList.get(i).setColour(Color.GREEN);
+//		}
+
 		
 		//Set one infectious person
 		peopleList.get(peopleList.size() -1).setColour(Color.RED);
