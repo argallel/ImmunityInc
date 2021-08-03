@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -269,21 +271,21 @@ public class BallProgram extends JPanel
 			
 			//boilerplate
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setLayout(new FlowLayout() );//ANONYMOUS object
+			frame.setLayout(new BorderLayout() );//ANONYMOUS object
 			frame.setSize(1200,1000);
 			frame.setLocationRelativeTo(null);
 			
+			JPanel ballPit = new JPanel();
+			ballPit.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "Pandemic Simulator"));
 			
 			//create an ANONYMOUS object of the class and add the JPanel to the JFrame
-			frame.add(new BallProgram() );
+			ballPit.add(new BallProgram());
+			
+			frame.add(ballPit);
 			
 			frame.pack();//shrinks the JFrame to the smallest size possible to conserve
 			             //screen real estate. Comment it out to see its effect
 			frame.setVisible(true);	
-			
-			
-			
-
 	}
 
 }

@@ -1,9 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 import java.awt.*;
@@ -17,11 +20,10 @@ import java.awt.*;
 
 public class Program extends JFrame {
 	
-	private JButton startPanBtn, pausePanBtn;
-	private JLabel title, peopleLbl, unvaxLbl, unvaxMathLbl, oneShotLbl, fullLbl;
-	public static JComboBox<Integer> peopleCB, unvaxRateCB, oneShotRateCB, fullRateCB;
+	private JButton startPanBtn, pausePanBtn, aboutPanBtn;
+	private JLabel title, peopleLbl, natImunLbl, unvaxLbl, unvaxMathLbl, oneShotLbl, fullLbl, blank;
+	public static JComboBox<Integer> peopleCB, unvaxRateCB, oneShotRateCB, fullRateCB, natImunCB;
 	public static JSpinner peopleSpnr;
-	private JPanel blank;
 	
 	public Program() {
 		super("Immunity Inc - Pandemic Simulation Application");
@@ -29,7 +31,7 @@ public class Program extends JFrame {
 		PanListener listner = new PanListener();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500,300);
+		this.setSize(600,420);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		
@@ -38,8 +40,8 @@ public class Program extends JFrame {
 		this.add(title, BorderLayout.NORTH);
 		
 		JPanel body = new JPanel();
-		body.setLayout(new GridLayout(5,2,8,8));
-		body.setBorder(new EmptyBorder(10,10,10,10));
+		body.setLayout(new GridLayout(6,2,8,8));
+		body.setBorder(new EmptyBorder(10,30,10,30));
 		this.add(body, BorderLayout.CENTER);
 		
 		Vector<Integer> numbers = new Vector<Integer>();
@@ -49,6 +51,7 @@ public class Program extends JFrame {
 		 }
 		 
 		 peopleLbl = new JLabel("Total number of people in Simulation:", JLabel.RIGHT);
+		 natImunLbl = new JLabel("Number of people with natural immunity:", JLabel.RIGHT);
 		 unvaxLbl = new JLabel("Number of people unvaccinated:", JLabel.RIGHT);
 		 oneShotLbl = new JLabel("Percent of people with one shot:", JLabel.RIGHT);
 		 fullLbl = new JLabel("Percent of people fully vaccinated:", JLabel.RIGHT);
@@ -62,18 +65,31 @@ public class Program extends JFrame {
 		 
 		 //peopleCB = new JComboBox<Integer>(numbers);
 		 //unvaxRateCB = new JComboBox<Integer>(numbers);
+		 natImunCB = new JComboBox<Integer>(numbers);
+		 natImunCB.addActionListener(listner);
 		 oneShotRateCB = new JComboBox<Integer>(numbers);
 		 oneShotRateCB.addActionListener(listner);
 		 fullRateCB = new JComboBox<Integer>(numbers);
 		 fullRateCB.addActionListener(listner);
 		 
 		 startPanBtn = new JButton("Cause a Pandemic");
-		 startPanBtn.addActionListener(listner);;
+		 startPanBtn.addActionListener(listner);
 		 
-		 blank = new JPanel();
+		 BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("../Pandemic/src/fulllogofitted.JPG"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 blank = new JLabel(new ImageIcon(image));
+		 blank.setBorder(BorderFactory.createLoweredBevelBorder());
 		 
 		 body.add(peopleLbl);
 		 body.add(peopleSpnr);
+		 body.add(natImunLbl);
+		 body.add(natImunCB);
 		 body.add(oneShotLbl);
 		 body.add(oneShotRateCB);
 		 body.add(fullLbl);
@@ -82,6 +98,14 @@ public class Program extends JFrame {
 		 body.add(unvaxMathLbl);
 		 body.add(blank);
 		 body.add(startPanBtn);
+		 
+		 JPanel footer = new JPanel(new FlowLayout());
+		 
+		 aboutPanBtn = new JButton("About/Help");
+		 aboutPanBtn.addActionListener(listner);
+		 footer.add(aboutPanBtn);
+		 
+		 this.add(footer, BorderLayout.SOUTH);
 		 		
 		this.setVisible(true);
 	}
@@ -91,6 +115,7 @@ public class Program extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			double natImun = Double.parseDouble(natImunCB.getSelectedItem().toString());
 			double oneShot = Double.parseDouble(oneShotRateCB.getSelectedItem().toString());
 			double twoShot = Double.parseDouble(fullRateCB.getSelectedItem().toString());
 			double totalPeople = Double.parseDouble(peopleSpnr.getValue().toString());
@@ -101,19 +126,20 @@ public class Program extends JFrame {
 					JFrame warning = new JFrame();
 					JOptionPane.showMessageDialog(warning, "Total percentage of one shot and fully vaccinated must be less then or equal to 100");
 				}
-				else {
-					
-						BallProgram.main(null);
-					
-					
+				else {				
+						BallProgram.main(null);	
 				}
 			}
 			
-			if (e.getSource().equals(oneShotRateCB) || e.getSource().equals(fullRateCB)) {
-				unvaxMathLbl.setText("" + (totalPeople - (totalPeople * (oneShot + twoShot)/100)));
+			if (e.getSource().equals(aboutPanBtn)) {
+				AboutView.main(null);
 			}
 			
-			if (totalPeople - (totalPeople * (oneShot + twoShot)/100) < 0) {
+			if (e.getSource().equals(oneShotRateCB) || e.getSource().equals(fullRateCB) || e.getSource().equals(natImunCB)) {
+				unvaxMathLbl.setText("" + (totalPeople - (totalPeople * (oneShot + twoShot + natImun)/100)));
+			}
+			
+			if (totalPeople - (totalPeople * (oneShot + twoShot + natImun)/100) < 0) {
 				unvaxMathLbl.setText("Invalid percentages");
 			}
 			
@@ -122,15 +148,16 @@ public class Program extends JFrame {
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			
+			double natImun = Double.parseDouble(natImunCB.getSelectedItem().toString());
 			double oneShot = Double.parseDouble(oneShotRateCB.getSelectedItem().toString());
 			double twoShot = Double.parseDouble(fullRateCB.getSelectedItem().toString());
 			double totalPeople = Double.parseDouble(peopleSpnr.getValue().toString());
 			
 			if (e.getSource().equals(peopleSpnr)) {
-				unvaxMathLbl.setText("" + (totalPeople - (totalPeople * (oneShot + twoShot)/100)));
+				unvaxMathLbl.setText("" + (totalPeople - (totalPeople * (oneShot + twoShot + natImun)/100)));
 			}
 			
-			if (totalPeople - (totalPeople * (oneShot + twoShot)/100) < 0) {
+			if (totalPeople - (totalPeople * (oneShot + twoShot + natImun)/100) < 0) {
 				unvaxMathLbl.setText("Invalid percentages");
 			}
 		}
