@@ -24,6 +24,9 @@ public class People
 	boolean xFlag;
 	boolean yFlag;
 	
+	boolean everInfec;
+	int initialImmun;
+	
 	public People() {
 		this.immunityStatus = 1;
 		this.isAlive = true;
@@ -37,8 +40,42 @@ public class People
 		this.diameter = 10;
 		this.xFlag = Math.random() < 0.5;
 		this.yFlag = Math.random() < 0.5;
+		this.everInfec = false;
+		this.initialImmun = 1;
 	}
 
+	
+	/**
+	 * Getter for everInfec
+	 */
+	public boolean isEverInfec()
+	{
+		return everInfec;
+	}
+
+	/**
+	 * Setter for everInfec
+	 */
+	public void setEverInfec(boolean everInfec)
+	{
+		this.everInfec = everInfec;
+	}
+
+	/**
+	 * Getter for initialImmun
+	 */
+	public int isInitialImmun()
+	{
+		return initialImmun;
+	}
+
+	/**
+	 * Setter for initialImmun
+	 */
+	public void setInitialImmun(int initialImmun)
+	{
+		this.initialImmun = initialImmun;
+	}
 	/**
 	 * Getter for diameter
 	 */

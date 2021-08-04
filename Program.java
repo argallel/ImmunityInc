@@ -77,7 +77,7 @@ public class Program extends JFrame {
 		 
 		 BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("../Pandemic/src/fulllogofitted.JPG"));
+			image = ImageIO.read(new File("../ImmunityInc/src/fulllogofitted.JPG"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

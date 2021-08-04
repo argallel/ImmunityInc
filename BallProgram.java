@@ -24,6 +24,8 @@ public class BallProgram extends JPanel
 	private final int IMG_DIM = 8;
 	private Vector<People> peopleList;
 	private static int counter;
+	private int infected, nonvacInfec, partvacInfec, fullyvacIfec, recovered, dead;
+	private int contracted, unvacContracted, partvacContracted, fullvacContracted, totRecovered, unvacDead, partvacDead, fullvacDead, natDead;
 	
 	
 
@@ -36,25 +38,28 @@ public class BallProgram extends JPanel
 		//Deals with the percent of vaccinated and such
 		int numOneShot =  (int) Math.round(peopleList.size() * (double)((int)Program.oneShotRateCB.getSelectedItem()/100.00));
 		int numTwoShot =  (int) Math.round(peopleList.size() * (double)((int)Program.fullRateCB.getSelectedItem()/100.00));
-		//int natImmun =  (int) Math.round(peopleList.size() * (double)((int)Program.naturalImmunityCB.getSelectedItem()/100.00));
+		int natImmun =  (int) Math.round(peopleList.size() * (double)((int)Program.natImunCB.getSelectedItem()/100.00));
 		
 		//Immunity of 1 shot
 		for(int i = 0; i < numOneShot; i++) {
 			peopleList.get(i).setImmunityStatus(2);
 			peopleList.get(i).setColour(Color.CYAN);
+			peopleList.get(i).setInitialImmun(2);
 		}
 		
 		//Immunity of 2 shot
 		for(int i = numOneShot; i < numTwoShot + numOneShot; i++) {
 			peopleList.get(i).setImmunityStatus(3);
 			peopleList.get(i).setColour(Color.YELLOW);
+			peopleList.get(i).setInitialImmun(3);
 		}
 		
 		//Immunity of Natural
-//		for(int i = numTwoShot; i < numTwoShot + numOneShot + natImmun; i++) {
-//			peopleList.get(i).setImmunityStatus(4);
-//			peopleList.get(i).setColour(Color.GREEN);
-//		}
+		for(int i = numTwoShot + numOneShot; i < numTwoShot + numOneShot + natImmun; i++) {
+			peopleList.get(i).setImmunityStatus(4);
+			peopleList.get(i).setColour(Color.GREEN);
+			peopleList.get(i).setInitialImmun(4);
+		}
 
 		
 		//Set one infectious person
@@ -114,6 +119,9 @@ public class BallProgram extends JPanel
 						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
+						p2.setEverInfec(true);
+						this.infected++;
+						this.nonvacInfec++;
 					}
 				}
 				
@@ -123,6 +131,9 @@ public class BallProgram extends JPanel
 						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
+						p2.setEverInfec(true);
+						this.infected++;
+						this.partvacInfec++;
 					}
 				}
 				
@@ -132,6 +143,9 @@ public class BallProgram extends JPanel
 						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
+						p2.setEverInfec(true);
+						this.infected++;
+						this.fullyvacIfec++;
 					}
 				}
 				
@@ -141,6 +155,8 @@ public class BallProgram extends JPanel
 						p2.counter = 0;
 						p2.setInfected(true);
 						p2.setColour(Color.RED);
+						p2.setEverInfec(true);
+						this.infected++;
 					}
 				}
 				
@@ -151,6 +167,9 @@ public class BallProgram extends JPanel
 						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
+						p1.setEverInfec(true);
+						this.infected++;
+						this.nonvacInfec++;
 					}
 				}
 				
@@ -160,6 +179,9 @@ public class BallProgram extends JPanel
 						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
+						p1.setEverInfec(true);
+						this.infected++;
+						this.partvacInfec++;
 					}
 				}
 				
@@ -169,6 +191,9 @@ public class BallProgram extends JPanel
 						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
+						p1.setEverInfec(true);
+						this.infected++;
+						this.fullyvacIfec++;
 					}
 				}
 				
@@ -178,6 +203,8 @@ public class BallProgram extends JPanel
 						p1.counter = 0;
 						p1.setInfected(true);
 						p1.setColour(Color.RED);
+						p1.setEverInfec(true);
+						this.infected++;
 					}
 				}
 			}
@@ -194,23 +221,44 @@ public class BallProgram extends JPanel
 				if(ball.getImmunityStatus() == 1 && Math.random() < 0.1) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
+					this.infected--;
+					this.nonvacInfec++;
+					this.dead++;
+					
 				}
 				else if(ball.getImmunityStatus() == 2 && Math.random() < 0.05) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
+					this.infected--;
+					this.dead++;
 				}
 				else if(ball.getImmunityStatus() == 3 && Math.random() < 0.01) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
+					this.infected--;
+					this.dead++;
 				}
 				if(ball.getImmunityStatus() == 4 && Math.random() < 0.003) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
+					this.infected--;
+					this.dead++;
 				}
 				else {
 					ball.setInfected(false);
 					ball.colour = Color.GREEN;
 					ball.setImmunityStatus(4);
+					this.infected--;
+					this.recovered++;
+					if(ball.initialImmun == 1) {
+						this.nonvacInfec--;
+					}
+					else if(ball.initialImmun == 2) {
+						this.partvacInfec--;
+					}
+					else if(ball.initialImmun == 3) {
+						this.fullyvacIfec--;
+					}
 				}
 			}			
 		}
@@ -262,7 +310,41 @@ public class BallProgram extends JPanel
 		else {
 			ball.setColour(Color.BLACK);
 		}
+		
 	}//end calcPosition
+	
+	public void findTotals() {
+		for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
+			if(peopleList.get(i).everInfec == true) {
+				contracted++;
+				if(peopleList.get(i).initialImmun == 1) {
+					unvacContracted++;
+				}
+				else if(peopleList.get(i).initialImmun == 2) {
+					partvacContracted++;
+				}
+				else if(peopleList.get(i).initialImmun == 3) {
+					fullvacContracted++;
+				}
+				if(peopleList.get(i).everInfec == true && peopleList.get(i).isInfected == false) {
+					totRecovered++;
+				}
+				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 1) {
+					unvacDead++;
+				}
+				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 2) {
+					partvacDead++;
+				}
+				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 3) {
+					fullvacDead++;
+				}
+				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 4) {
+					natDead++;
+				}
+			}
+		}
+	}
+	
 
 	public static void main(String[] args)
 	{
