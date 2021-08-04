@@ -20,7 +20,7 @@ public class AboutView extends JFrame
 		JFrame frame = new JFrame("Immunity Inc - Help and About page");
 		
 		//boilerplate
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLayout(new BorderLayout() );//ANONYMOUS object
 		frame.setSize(400,400);
 		frame.setLocationRelativeTo(null);

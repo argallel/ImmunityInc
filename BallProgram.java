@@ -352,7 +352,7 @@ public class BallProgram extends JPanel
 			JFrame frame = new JFrame("Just Follow the Bouncing Ball");
 			
 			//boilerplate
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			frame.setLayout(new BorderLayout() );//ANONYMOUS object
 			frame.setSize(1200,1000);
 			frame.setLocationRelativeTo(null);
