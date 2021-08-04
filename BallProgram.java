@@ -19,7 +19,7 @@ public class BallProgram extends JPanel
 {
 	
 	public final static int WIDTH = 700, HEIGHT = 500;
-	private final int LAG_TIME = 200; 
+	private final int LAG_TIME = 5; 
 	private static Timer time;
 	private final int IMG_DIM = 8;
 	private Vector<People> peopleList;
@@ -90,6 +90,7 @@ public class BallProgram extends JPanel
 		peopleList.get(peopleList.size() -1).setInfected(true);
 		peopleList.get(peopleList.size() -1).setEverInfec(true);
 		peopleList.get(peopleList.size() -1).setInitialImmun(1);
+		peopleList.get(peopleList.size() -1).setImmunityStatus(1);
 		
 		this.time = new Timer(LAG_TIME, new BounceListener() );
 		
@@ -236,6 +237,10 @@ public class BallProgram extends JPanel
 						p1.setEverInfec(true);
 						this.infected++;
 						
+						if(p2.everInfec == true && this.totRecovered > 0) {
+							this.totRecovered--;
+						}
+						
 						if(p2.initialImmun == 4) {
 							natContracted++;
 						}
@@ -255,42 +260,60 @@ public class BallProgram extends JPanel
 				if(ball.getImmunityStatus() == 1 && Math.random() < 0.1) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
-					this.infected--;
-					this.nonvacInfec++;
 					this.dead++;
+					if(infected > 0) {
+						this.infected--;
+					}
 					
 				}
 				else if(ball.getImmunityStatus() == 2 && Math.random() < 0.05) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
-					this.infected--;
+					if(infected > 0) {
+						this.infected--;
+					}
 					this.dead++;
 				}
 				else if(ball.getImmunityStatus() == 3 && Math.random() < 0.01) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
-					this.infected--;
+					if(infected > 0) {
+						this.infected--;
+					}
 					this.dead++;
 				}
 				if(ball.getImmunityStatus() == 4 && Math.random() < 0.003) {
 					ball.setAlive(false);
 					ball.setColour(Color.BLACK);
-					this.infected--;
+					if(infected > 0) {
+						this.infected--;
+					}
 					this.dead++;
+				}
+				if(ball.initialImmun == 1 && nonvacInfec < 0) {
+					this.nonvacInfec--;
+				}
+				else if(ball.initialImmun == 2 && partvacInfec < 0) {
+					this.partvacInfec--;
+				}
+				else if(ball.initialImmun == 3 && fullyvacIfec < 0) {
+					this.fullyvacIfec--;
 				}
 				else {
 					ball.setInfected(false);
 					ball.colour = Color.GREEN;
 					ball.setImmunityStatus(4);
-					this.infected--;
+					if(infected > 0) {
+						this.infected--;
+					}
 					this.recovered++;
-					if(ball.initialImmun == 1) {
+					if(ball.initialImmun == 1 && nonvacInfec < 0) {
 						this.nonvacInfec--;
 					}
-					else if(ball.initialImmun == 2) {
+					else if(ball.initialImmun == 2 && partvacInfec < 0) {
 						this.partvacInfec--;
 					}
-					else if(ball.initialImmun == 3) {
+					else if(ball.initialImmun == 3 && fullyvacIfec < 0) {
 						this.fullyvacIfec--;
 					}
 				}
@@ -354,25 +377,25 @@ public class BallProgram extends JPanel
 				if(peopleList.get(i).initialImmun == 1) {
 					unvacContracted++;
 				}
-				else if(peopleList.get(i).initialImmun == 2) {
+				if(peopleList.get(i).initialImmun == 2) {
 					partvacContracted++;
 				}
-				else if(peopleList.get(i).initialImmun == 3) {
+				if(peopleList.get(i).initialImmun == 3) {
 					fullvacContracted++;
 				}
 				if(peopleList.get(i).everInfec == true && peopleList.get(i).isInfected == false) {
 					totRecovered++;
 				}
-				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 1) {
+				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 1) {
 					unvacDead++;
 				}
-				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 2) {
+				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 2) {
 					partvacDead++;
 				}
-				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 3) {
+				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 3) {
 					fullvacDead++;
 				}
-				else if (peopleList.get(i).isAlive == false || peopleList.get(i).initialImmun == 4) {
+				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 4) {
 					natDead++;
 				}
 			}
