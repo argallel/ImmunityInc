@@ -24,12 +24,35 @@ public class BallProgram extends JPanel
 	private final int IMG_DIM = 8;
 	private Vector<People> peopleList;
 	private static int counter;
-	private int infected, nonvacInfec, partvacInfec, fullyvacIfec, recovered, dead;
-	private int contracted, unvacContracted, partvacContracted, fullvacContracted, totRecovered, unvacDead, partvacDead, fullvacDead, natDead;
+	public static int infected, nonvacInfec, partvacInfec, fullyvacIfec, recovered, dead;
+	public static int contracted, unvacContracted, partvacContracted, fullvacContracted, natContracted, totRecovered, unvacDead, partvacDead, fullvacDead, natDead;
 	
 	
+	public static TrackerView track;
+
+	public static void setNatDead(int natDead)
+	{
+		BallProgram.natDead = natDead;
+	}
 
 	public BallProgram(){
+		infected = 1;
+		nonvacInfec = 1;
+		partvacInfec = 0;
+		fullyvacIfec = 0;
+		recovered = 0;
+		dead = 0;
+		contracted = 0;
+		unvacContracted = 0;
+		partvacContracted = 0; 
+		fullvacContracted = 0;
+		totRecovered = 0; 
+		unvacDead = 0;
+		partvacDead = 0;
+		fullvacDead = 0;
+		natDead = 0;
+		natContracted = 0;
+		
 		peopleList = new Vector<People>();
 		for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
 			peopleList.add(new People());
@@ -65,6 +88,8 @@ public class BallProgram extends JPanel
 		//Set one infectious person
 		peopleList.get(peopleList.size() -1).setColour(Color.RED);
 		peopleList.get(peopleList.size() -1).setInfected(true);
+		peopleList.get(peopleList.size() -1).setEverInfec(true);
+		peopleList.get(peopleList.size() -1).setInitialImmun(1);
 		
 		this.time = new Timer(LAG_TIME, new BounceListener() );
 		
@@ -90,6 +115,7 @@ public class BallProgram extends JPanel
 			counter++;
 			if(counter == 450) {
 				BallProgram.time.stop();
+				findTotals();
 			}
 			for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
 				calcPosition(peopleList.get(i));
@@ -157,11 +183,15 @@ public class BallProgram extends JPanel
 						p2.setColour(Color.RED);
 						p2.setEverInfec(true);
 						this.infected++;
+						
+						if(p2.initialImmun == 4) {
+							natContracted++;
+						}
 					}
 				}
 				
 			}
-			else if(p2.getColour() == Color.RED && p1.isAlive == true) {
+			else if(p2.isInfected == true && p1.isAlive == true && p1.isInfected == false ) {
 				if(p1.getImmunityStatus() == 1) {
 					if(Math.random() <= 0.8) {
 						p1.counter = 0;
@@ -205,6 +235,10 @@ public class BallProgram extends JPanel
 						p1.setColour(Color.RED);
 						p1.setEverInfec(true);
 						this.infected++;
+						
+						if(p2.initialImmun == 4) {
+							natContracted++;
+						}
 					}
 				}
 			}
@@ -310,7 +344,7 @@ public class BallProgram extends JPanel
 		else {
 			ball.setColour(Color.BLACK);
 		}
-		
+		track.update();
 	}//end calcPosition
 	
 	public void findTotals() {
@@ -345,6 +379,7 @@ public class BallProgram extends JPanel
 		}
 	}
 	
+	
 
 	public static void main(String[] args)
 	{
@@ -357,17 +392,19 @@ public class BallProgram extends JPanel
 			frame.setSize(1200,1000);
 			frame.setLocationRelativeTo(null);
 			
-			JPanel ballPit = new JPanel();
+			JPanel ballPit = new JPanel(new BorderLayout());
 			ballPit.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "Pandemic Simulator"));
 			
 			//create an ANONYMOUS object of the class and add the JPanel to the JFrame
-			ballPit.add(new BallProgram());
+			ballPit.add(new BallProgram(), BorderLayout.CENTER);
+			
 			
 			frame.add(ballPit);
 			
 			frame.pack();//shrinks the JFrame to the smallest size possible to conserve
 			             //screen real estate. Comment it out to see its effect
 			frame.setVisible(true);	
+			track = new TrackerView();
 	}
 
 }
