@@ -23,7 +23,7 @@ public class TrackerView extends JFrame
 	public TrackerView() {
 		super("Immunity Inc. Tracking Information");
 		
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(470,550);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
@@ -116,11 +116,12 @@ public class TrackerView extends JFrame
 		
 		body.add(totals);
 		
+		//Image
 		 BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("../ImmunityInc/src/fulllogofitted.JPG"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -135,6 +136,10 @@ public class TrackerView extends JFrame
 		this.setVisible(true);
 	}
 	
+	//Name: Update
+	//Description: updates the totals in the panel when called
+	//Inputs: none
+	//Outputs: none
 	public void update() {
 		infected.setText(Integer.toString(BallProgram.infected));
 		nonvacInfec.setText(Integer.toString(BallProgram.nonvacInfec));
@@ -152,21 +157,21 @@ public class TrackerView extends JFrame
 		fullvacContracted.setText(Integer.toString(BallProgram.fullvacContracted));
 		
 		if(BallProgram.unvacContracted != 0){
-			unvacDead.setText(Double.toString(BallProgram.unvacDead / (double)BallProgram.unvacContracted));
+			unvacDead.setText(Double.toString(100 * BallProgram.unvacDead / (double)BallProgram.unvacContracted));
 		}
 		if(BallProgram.partvacContracted != 0) {
-			partvacDead.setText(Double.toString(BallProgram.partvacDead / (double)BallProgram.partvacContracted));
+			partvacDead.setText(Double.toString(100 *BallProgram.partvacDead / (double)BallProgram.partvacContracted));
 		}
 		if(BallProgram.fullvacContracted != 0) {
-			fullvacDead.setText(Double.toString(BallProgram.fullvacDead / (double)BallProgram.fullvacContracted));
+			fullvacDead.setText(Double.toString(100 *BallProgram.fullvacDead / (double)BallProgram.fullvacContracted));
 		}
 		if(BallProgram.natContracted != 0) {
-			natDead.setText(Double.toString(BallProgram.natDead / (double)BallProgram.natContracted));
+			natDead.setText(Double.toString(100 *BallProgram.natDead / (double)BallProgram.natContracted));
 		}
 		if(BallProgram.contracted != 0) {
-			unvacContracted.setText(Double.toString((double)BallProgram.unvacContracted / BallProgram.contracted));
-			partvacContracted.setText(Double.toString((double)BallProgram.partvacContracted / BallProgram.contracted));
-			fullvacContracted.setText(Double.toString((double)BallProgram.fullvacContracted / BallProgram.contracted));
+			unvacContracted.setText(Double.toString(100 *(double)BallProgram.unvacContracted / BallProgram.contracted));
+			partvacContracted.setText(Double.toString(100 *(double)BallProgram.partvacContracted / BallProgram.contracted));
+			fullvacContracted.setText(Double.toString(100 *(double)BallProgram.fullvacContracted / BallProgram.contracted));
 		}
 	}
 

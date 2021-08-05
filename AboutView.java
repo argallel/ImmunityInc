@@ -14,7 +14,7 @@ public class AboutView extends JFrame
 	{
 		super("About Menu");
 		//boilerplate
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(600,290);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout() );
@@ -25,6 +25,7 @@ public class AboutView extends JFrame
 		titlePanel.setLayout(new GridLayout(1,5));
 		titlePanel.setBorder(new EmptyBorder(10,50,10,50));
 		
+		//Names
 		JLabel katherineLabel = new JLabel("Katherine Argall");
 		JLabel rolandLabel = new JLabel("Roland Turner", JLabel.CENTER);
 		JLabel scottLabel = new JLabel("Scott Catton", JLabel.RIGHT);
@@ -41,11 +42,11 @@ public class AboutView extends JFrame
 		
 		instructionsPanel.setLayout(new FlowLayout());
 		
+		//Image
 		 BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("../ImmunityInc/src/fulllogofitted.JPG"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -56,6 +57,7 @@ public class AboutView extends JFrame
 		 
 		instructionsPanel.add(flowcenter, BorderLayout.NORTH);
 
+		//Instructions
 		JTextArea txtPurpose = new JTextArea("  This is an educational program used to spread awarness on how a pandemic works for public   \n  safety purposes.");
 		txtPurpose.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "Purpose"));
 		txtPurpose.setEditable(false);

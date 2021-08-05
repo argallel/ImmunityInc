@@ -18,6 +18,10 @@ public class HelperMethods
 	private Timer time;
 	public int popSize;
 
+	//Name: Calc Position
+	//Description: Calculates the new position of a person object. Created by Bill Pulling
+	//Inputs: Person
+	//Outputs: none
 	public void calcPosition(People person)
 	{
 		if(person.xFlag == true)

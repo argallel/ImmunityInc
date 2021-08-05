@@ -17,9 +17,9 @@ import javax.swing.event.*;
 
 public class BallProgram extends JPanel
 {
-	
+	//Class wide variables
 	public final static int WIDTH = 700, HEIGHT = 500;
-	private final int LAG_TIME = 5; 
+	private final int LAG_TIME = 200; 
 	private static Timer time;
 	private final int IMG_DIM = 8;
 	private Vector<People> peopleList;
@@ -36,6 +36,8 @@ public class BallProgram extends JPanel
 	}
 
 	public BallProgram(){
+		//Set trackers to initial status
+		//INfected and nonvac infected start at 1 for person who starts the program infected
 		infected = 1;
 		nonvacInfec = 1;
 		partvacInfec = 0;
@@ -99,6 +101,10 @@ public class BallProgram extends JPanel
 		this.time.start();
 	}
 	
+	//Name: Paint Component
+	//Description: repaints the ball based on its colour and position
+	//Inputs: Graphics
+	//Outputs: none
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -110,6 +116,10 @@ public class BallProgram extends JPanel
 	
 	private class BounceListener implements ActionListener{
 
+	//Name: Action Performed
+		//Description: Loops through all people- calculates their position and detects collisions
+		//Inputs: Action event
+		//Outputs: none
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
@@ -119,9 +129,11 @@ public class BallProgram extends JPanel
 				findTotals();
 			}
 			for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
+				//Move each person ball
 				calcPosition(peopleList.get(i));
 				for(int j = 0; j <= (Integer)Program.peopleSpnr.getValue(); j++) {
 					if(i != j) {
+						//As long as it is not yourself, check for a collision
 						collisionDetection(peopleList.get(i), peopleList.get(j));
 					}
 				}
@@ -129,6 +141,10 @@ public class BallProgram extends JPanel
 		}
 	}
 	
+	//Name: Collision Detection
+	//Description: Detects collisions between two people objects. Originally by Bill Pulling, then modified
+	//Inputs: 2 People
+	//Outputs: none
 	public void collisionDetection(People p1, People p2) {
 		int deltaX = p1.getxCoord() - p2.getxCoord();
 		int deltaY = p1.getyCoord() - p2.getyCoord();
@@ -139,6 +155,7 @@ public class BallProgram extends JPanel
 			p2.setxFlag(!p2.xFlag);
 			p2.setyFlag(!p2.yFlag);
 			
+			//If p1 is infected, but p2 is not and is alive
 			if(p1.isInfected == true && p2.isAlive == true && p2.isInfected == false) {
 				//No immunity
 				if(p1.getImmunityStatus() == 1) {
@@ -192,6 +209,7 @@ public class BallProgram extends JPanel
 				}
 				
 			}
+		//If p2 is infected, but p1 is not and is alive
 			else if(p2.isInfected == true && p1.isAlive == true && p1.isInfected == false ) {
 				if(p1.getImmunityStatus() == 1) {
 					if(Math.random() <= 0.8) {
@@ -252,6 +270,10 @@ public class BallProgram extends JPanel
 		}
 	}
 	
+	//Name: Collision Detection
+	//Description: Detects collisions between two people objects. Originally by Bill Pulling, then modified
+	//Inputs: 2 People
+	//Outputs: none
 	public void calcPosition(People ball)
 	{
 		if(ball.isInfected == true) {
@@ -370,31 +392,44 @@ public class BallProgram extends JPanel
 		track.update();
 	}//end calcPosition
 	
+	//Name: Find Totals
+	//Description: Finds the totals of people objects
+	//Inputs: None
+	//Outputs: none
 	public void findTotals() {
 		for(int i = 0; i <= (Integer)Program.peopleSpnr.getValue(); i++) {
+			//People ever sick
 			if(peopleList.get(i).everInfec == true) {
 				contracted++;
+				//No shot
 				if(peopleList.get(i).initialImmun == 1) {
 					unvacContracted++;
 				}
+				//One shot
 				if(peopleList.get(i).initialImmun == 2) {
 					partvacContracted++;
 				}
+				//Two shot
 				if(peopleList.get(i).initialImmun == 3) {
 					fullvacContracted++;
 				}
+				//Total Recovered
 				if(peopleList.get(i).everInfec == true && peopleList.get(i).isInfected == false) {
 					totRecovered++;
 				}
+				//Dead no shot
 				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 1) {
 					unvacDead++;
 				}
+				//Dead one shot
 				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 2) {
 					partvacDead++;
 				}
+				//Dead two shot
 				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 3) {
 					fullvacDead++;
 				}
+				//Dead nat immunity
 				if (peopleList.get(i).isAlive == false && peopleList.get(i).initialImmun == 4) {
 					natDead++;
 				}
@@ -410,7 +445,7 @@ public class BallProgram extends JPanel
 			JFrame frame = new JFrame("Just Follow the Bouncing Ball");
 			
 			//boilerplate
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLayout(new BorderLayout() );//ANONYMOUS object
 			frame.setSize(1200,1000);
 			frame.setLocationRelativeTo(null);

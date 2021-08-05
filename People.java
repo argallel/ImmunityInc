@@ -24,7 +24,10 @@ public class People
 	boolean xFlag;
 	boolean yFlag;
 	
+	//Keeps track of whether the person has ever been infected
 	boolean everInfec;
+	
+	//Keeps track of the person's initial immunity
 	int initialImmun;
 	
 	public People() {

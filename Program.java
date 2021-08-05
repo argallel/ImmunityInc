@@ -63,8 +63,6 @@ public class Program extends JFrame {
 		 peopleSpnr.setEditor(new JSpinner.DefaultEditor(peopleSpnr));
 		 peopleSpnr.addChangeListener(listner);
 		 
-		 //peopleCB = new JComboBox<Integer>(numbers);
-		 //unvaxRateCB = new JComboBox<Integer>(numbers);
 		 natImunCB = new JComboBox<Integer>(numbers);
 		 natImunCB.addActionListener(listner);
 		 oneShotRateCB = new JComboBox<Integer>(numbers);
@@ -109,8 +107,13 @@ public class Program extends JFrame {
 		this.setVisible(true);
 	}
 	
+	
 	 private class PanListener implements ActionListener, ChangeListener {
 
+			//Name: Action Performed
+			//Description: Checks data and starts the simulation
+			//Inputs: 2 People
+			//Outputs: none
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -120,7 +123,7 @@ public class Program extends JFrame {
 			double totalPeople = Double.parseDouble(peopleSpnr.getValue().toString());
 			
 			if (e.getSource().equals(startPanBtn)) {
-				
+				//Checks totals are less than 100
 				if (oneShot + twoShot > 100) {
 					JFrame warning = new JFrame();
 					JOptionPane.showMessageDialog(warning, "Total percentage of one shot and fully vaccinated must be less then or equal to 100");
@@ -133,7 +136,7 @@ public class Program extends JFrame {
 			if (e.getSource().equals(aboutPanBtn)) {
 				AboutView.main(null);
 			}
-			
+			//Show number of unvaccinated people
 			if (e.getSource().equals(oneShotRateCB) || e.getSource().equals(fullRateCB) || e.getSource().equals(natImunCB)) {
 				unvaxMathLbl.setText("" + (totalPeople - (totalPeople * (oneShot + twoShot + natImun)/100)));
 			}
@@ -144,6 +147,10 @@ public class Program extends JFrame {
 			
 		}
 
+		//Name: State Changed
+		//Description: Checks percentages are under 100
+		//Inputs: Event
+		//Outputs: none
 		@Override
 		public void stateChanged(ChangeEvent e) {
 			
