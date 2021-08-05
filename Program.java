@@ -84,7 +84,6 @@ public class Program extends JFrame {
 		}
 		 
 		 blank = new JLabel(new ImageIcon(image));
-		 blank.setBorder(BorderFactory.createLoweredBevelBorder());
 		 
 		 body.add(peopleLbl);
 		 body.add(peopleSpnr);
